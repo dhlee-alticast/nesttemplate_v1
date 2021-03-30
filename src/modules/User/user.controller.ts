@@ -13,9 +13,14 @@ export class UserController {
   }
 
   @Post('/')
-  setDB(): string {
+  setDB(): Promise<string> {
     //DB 저장 후 확인
 
     return this.userService.setDB();
+  }
+
+  @Post('/useAPI')
+  getapiCall(): Promise<string> {
+    return this.userService.getapiCall();
   }
 }
