@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { User } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -9,8 +9,9 @@ export class UserService {
     @InjectRepository(User)
     private userRepo: Repository<User>,
   ) {}
+  private logger: Logger = new Logger(UserService.name, false);
   getHello(): string {
-    console.log('hello');
+    this.logger.log('function gethello');
     return 'this message from project2';
   }
 

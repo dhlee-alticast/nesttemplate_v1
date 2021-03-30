@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './controllers/app.controller';
-import { AppService } from './services/app.service';
 import { UserModule } from './User/user.module';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
@@ -28,6 +26,4 @@ import { DataBaseService } from './configs/database/database.service';
   controllers: [],
   providers: [],
 })
-export class AppModule {
-  // constructor(private connection: Connection) {}
-}
+export class AppModule {}
