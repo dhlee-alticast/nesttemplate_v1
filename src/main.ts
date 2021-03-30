@@ -1,8 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ShareModule } from './share/share.module';
+import { ConfigService } from './share/services/config.service';
+import { Logger } from '@nestjs/common';
 
-const env = process.env.RUN_TIME_ENV || 'local';
 const log = {
   local: {
     level: ['error', 'log', 'warn', 'debug', 'verbose'],
@@ -21,10 +23,11 @@ const log = {
   },
 };
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    logger: log[env].level,
-  });
-
+  const app = await NestFactory.create(AppModule);
+  const logger: Logger = new Logger('Server Booting', false);
+  const configService = app.select(ShareModule).get(ConfigService);
+  const RUN_TIME_ENV = configService.get('RUN_TIME_ENV') || 'local';
+  app.useLogger(log[RUN_TIME_ENV].level);
   //swagger
   const config = new DocumentBuilder()
     .setTitle('Nest API')
@@ -34,6 +37,8 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
-  await app.listen(3001);
+  const serverport = configService.getNumber('PORT');
+  await app.listen(serverport);
+  logger.log(`Server running on port ${serverport}`);
 }
 bootstrap();

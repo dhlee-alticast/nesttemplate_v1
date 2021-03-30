@@ -1,12 +1,9 @@
 import { Module } from '@nestjs/common';
-import { UserModule } from './User/user.module';
+import { UserModule } from './modules/User/user.module';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { Connection } from 'typeorm';
-import { User } from './User/user.entity';
-import { ExData } from './ExData/exdata.entity';
-import { ExDataModule } from './ExData/exdata.module';
-import { DataBaseService } from './configs/shareService/database.service';
-import { ConfigModule } from './configs/config.module';
+import { ExDataModule } from './modules/ExData/exdata.module';
+import { ConfigService } from './share/services/config.service';
+import { ShareModule } from './share/share.module';
 @Module({
   imports: [
     // TypeOrmModule.forRoot(dbconfig.mongoDB as TypeOrmModuleOptions),
@@ -17,9 +14,13 @@ import { ConfigModule } from './configs/config.module';
     //   database: 'test',
     //   entities: [User, ExData],
     // }),
-    TypeOrmModule.forRootAsync({ useClass: DataBaseService }),
-    // DataBaseModule,
-    ConfigModule,
+    TypeOrmModule.forRootAsync({
+      imports: [ShareModule],
+      useFactory: (configService: ConfigService) =>
+        configService.createTypeOrmOptions(),
+      inject: [ConfigService],
+    }),
+    ShareModule,
     UserModule,
     ExDataModule,
   ],
