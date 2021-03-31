@@ -16,4 +16,10 @@ export class ExDataController {
 
     return this.EeDataService.setDB();
   }
+
+  @Post('/tocsv')
+  toCSV(): Promise<string> {
+    //csv 파일 생성
+    return this.EeDataService.toCSV();
+  }
 }

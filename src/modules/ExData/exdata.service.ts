@@ -1,7 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ExData } from './exdata.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import fs from 'fs';
+const {
+  Parser,
+  transforms: { unwind },
+} = require('json2csv');
 
 @Injectable()
 export class ExDataService {
@@ -9,6 +14,9 @@ export class ExDataService {
     @InjectRepository(ExData)
     private exDataRepo: Repository<ExData>,
   ) {}
+
+  private readonly logger: Logger = new Logger('ExData Service', false);
+
   getHello(): string {
     return 'Hello World!';
   }
@@ -25,5 +33,52 @@ export class ExDataService {
     console.log('save testData');
     console.log(result);
     return 'set Okay Check your DB';
+  }
+
+  async toCSV(): Promise<any> {
+    const fileName = `[Test Data]`;
+    const fields = ['parkingId', 'soId', 'isActive'];
+    // const fields = [
+    //   {
+    //     label: '주차번호',
+    //     value: (row) => {
+    //       row.parkingId;
+    //     },
+    //     default: '',
+    //   },
+    //   {
+    //     label: 'SO 명',
+    //     value: (row) => {
+    //       row.soId;
+    //     },
+    //     default: '',
+    //   },
+    //   {
+    //     label: '사용여부',
+    //     value: (row) => {
+    //       row.isActive;
+    //     },
+    //     default: '',
+    //   },
+    // ];
+    const data = await this.exDataRepo.find();
+    console.dir(data);
+    data.forEach((element) => {
+      console.log(element.parkingId);
+    });
+    const transforms = [unwind({ paths: ['fieldToUnwind'] })];
+    const json2csvParser = new Parser({
+      fields,
+      transforms,
+      withBOM: true,
+      excelStrings: false,
+    });
+    const csvFile = json2csvParser.parse(data);
+    console.log(csvFile);
+    // fs.writeFileSync(`../../createdData/${fileName}.csv`, data.toString());
+    fs.writeFile(`createdData/${fileName}.csv`, csvFile, function err(errs) {
+      console.log(errs);
+    });
+    return 'check file';
   }
 }
