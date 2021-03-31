@@ -13,12 +13,26 @@ export const client = new Eureka({
     vipAddress: 'jq.test.something.com',
     dataCenterInfo: {
       name: 'MyOwn',
+      '@class': 'com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo',
     },
   },
   eureka: {
     // eureka server host / port
-    servicePath: '/eureka',
+
     host: 'localhost',
     port: 8761,
+    servicePath: '/eureka/apps',
+    maxRetries: 10,
+    requestRetryDelay: 2000,
+
+    // overrides: 1,
+    // custom: 'test',
+    // heartbeatInterval: 999,
+    // registryFetchInterval: 999,
+    // fetchRegistry: false,
+    // servicePath: '/eureka/v2/apps/',
+    // ssl: false,
+    // useDns: false,
+    // fetchMetadata: false,
   },
 });
