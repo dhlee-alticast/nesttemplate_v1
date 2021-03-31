@@ -4,5 +4,5 @@ export interface UserInterface {
   _id?: ObjectID;
   firstName?: string;
   lastName?: string;
-  isActive?: string;
+  isActive?: boolean;
 }
