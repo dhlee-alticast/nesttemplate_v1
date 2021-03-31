@@ -5,8 +5,11 @@ export const client = new Eureka({
   instance: {
     app: 'DongHa APP',
     hostName: 'localhost',
-    ipAddr: '0.0.0.0',
-    port: 3000,
+    ipAddr: '127.0.0.1',
+    port: {
+      $: 3000,
+      '@enabled': true,
+    },
     vipAddress: 'jq.test.something.com',
     dataCenterInfo: {
       name: 'MyOwn',
@@ -14,6 +17,7 @@ export const client = new Eureka({
   },
   eureka: {
     // eureka server host / port
+    servicePath: '/eureka',
     host: 'localhost',
     port: 8761,
   },
