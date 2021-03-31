@@ -4,7 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ShareModule } from './share/share.module';
 import { ConfigService } from './share/services/config.service';
 import { Logger } from '@nestjs/common';
-
+import { client } from './eurekaModule';
 const log = {
   local: {
     level: ['error', 'log', 'warn', 'debug', 'verbose'],
@@ -38,7 +38,9 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
   const serverport = configService.getNumber('PORT');
+
   await app.listen(serverport);
+
   logger.log(`Server running on port ${serverport}`);
 }
 bootstrap();

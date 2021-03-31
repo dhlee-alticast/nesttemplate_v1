@@ -30,7 +30,7 @@ export class UserService {
   }
 
   async getapiCall(): Promise<string> {
-    const res = await this.apiservice.getCall();
+    const res = await this.apiservice.getCallexdata();
     return res;
   }
 }
