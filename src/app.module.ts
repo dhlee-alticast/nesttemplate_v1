@@ -6,18 +6,9 @@ import { ConfigService } from './share/services/config.service';
 import { ShareModule } from './share/share.module';
 import { I18nJsonParser, I18nModule } from 'nestjs-i18n';
 import path from 'path';
-import { client } from './eurekaModule';
 
 @Module({
   imports: [
-    // TypeOrmModule.forRoot(dbconfig.mongoDB as TypeOrmModuleOptions),
-    // TypeOrmModule.forRoot({
-    //   type: 'mongodb',
-    //   host: 'localhost',
-    //   port: 27017,
-    //   database: 'test',
-    //   entities: [User, ExData],
-    // }),
     TypeOrmModule.forRootAsync({
       imports: [ShareModule],
       useFactory: (configService: ConfigService) =>
