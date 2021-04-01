@@ -5,11 +5,12 @@ import {
   HttpStatus,
   Logger,
   Post,
+  Res,
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { TranslationService } from 'src/share/services/translate.service';
 import { UserService } from './user.service';
-
+import { Request, Response } from 'express';
 @Controller('user')
 @ApiTags('user')
 export class UserController {
@@ -26,9 +27,25 @@ export class UserController {
     description: 'Get users list',
     type: String,
   })
-  getHello(): string {
+  getHello(@Res() res: Response): Response {
     this.logger.debug('gethello');
-    return this.userService.getHello();
+    // return this.userService.getHello();
+    // res.status(200);
+    return res.send(this.userService.getHello());
+  }
+
+  @Get('/test')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Get users list',
+    type: String,
+  })
+  getHellotest(@Res() res: Response): Response {
+    this.logger.debug('gethello');
+    // return this.userService.getHello();
+    // res.status(200);
+    return res.send(this.userService.getHello());
   }
 
   @Get('/i18n')

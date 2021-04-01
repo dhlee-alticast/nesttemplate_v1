@@ -20,7 +20,8 @@ export class UserService {
 
   async setDB(): Promise<string> {
     let sampleData = new User();
-    sampleData.firstName = 'dongha';
+    const nowData = Date.now();
+    sampleData.firstName = `dongha ${nowData}`;
     sampleData.lastName = 'Lee';
     const res = await this.userRepo.save(sampleData);
     this.logger.log('Save Data Result ');

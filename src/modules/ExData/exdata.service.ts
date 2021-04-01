@@ -18,7 +18,7 @@ export class ExDataService {
   private readonly logger: Logger = new Logger('ExData Service', false);
 
   getHello(): string {
-    return 'Hello World!';
+    return 'Hello World! from exdata';
   }
 
   getExcelData(): string {
@@ -27,7 +27,7 @@ export class ExDataService {
 
   async setDB(): Promise<string> {
     let sampleData = new ExData();
-    sampleData.parkingId = 'dongha';
+    sampleData.parkingId = `dongha ${Date.now()}`;
     sampleData.soId = 'Lee';
     const result = await this.exDataRepo.save(sampleData);
     console.log('save testData');
@@ -38,29 +38,7 @@ export class ExDataService {
   async toCSV(): Promise<any> {
     const fileName = `[Test Data]`;
     const fields = ['parkingId', 'soId', 'isActive'];
-    // const fields = [
-    //   {
-    //     label: '주차번호',
-    //     value: (row) => {
-    //       row.parkingId;
-    //     },
-    //     default: '',
-    //   },
-    //   {
-    //     label: 'SO 명',
-    //     value: (row) => {
-    //       row.soId;
-    //     },
-    //     default: '',
-    //   },
-    //   {
-    //     label: '사용여부',
-    //     value: (row) => {
-    //       row.isActive;
-    //     },
-    //     default: '',
-    //   },
-    // ];
+
     const data = await this.exDataRepo.find();
     console.dir(data);
     data.forEach((element) => {
