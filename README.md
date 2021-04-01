@@ -11,6 +11,35 @@
 4. BFF 는 API 호출로만 가져와서 리턴하게 되어있음
 ```
 
+## 개발환경
+
+1. nodejs v15.11.0 (M1 )
+2. vscode
+3. npm 7.6.0
+4. docker 설치
+
+## 이외의 세팅
+
+1. MongoDB 설치 / 실행
+
+```
+$ docker run -d -p 27017:27017 mongo:latest
+```
+
+2. eureka client와의 통신을 위해 eureka-server가 설치/ 실행되어있어야함.
+
+```
+$ cd ./{Project root}
+$ cd ./eurekaServer
+$ java -jar eureka-server-0.1.5.jar
+```
+
+3. zipkin 서버 설치 / 실행
+
+```
+$ docker run -d -p 9411:9411 openzipkin/zipkin
+```
+
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
